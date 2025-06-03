@@ -1,0 +1,7 @@
+LLM openai
+
+BASE https://api.deepseek.com
+KEY sk-712314123123123
+MODEL deepseek-chat
+
+# comment...

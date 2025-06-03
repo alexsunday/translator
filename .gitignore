@@ -1,0 +1,5 @@
+conf
+*.exe
+*.syso
+*.dll
+translator
