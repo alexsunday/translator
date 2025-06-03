@@ -4,9 +4,9 @@ go 1.24.1
 
 require (
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
+	github.com/sashabaranov/go-openai v1.40.1
 	github.com/stretchr/testify v1.9.0
 	github.com/tmc/langchaingo v0.1.13
-	golang.org/x/sync v0.14.0
 	golang.org/x/text v0.25.0
 )
 

@@ -5,23 +5,31 @@ import (
 	"fmt"
 
 	"github.com/tmc/langchaingo/llms"
+	"github.com/tmc/langchaingo/llms/openai"
 )
 
-type translateMessage struct {
-	text string
-	cmd  string
+type LangChainModel struct {
+	llm llms.Model
 }
 
-const (
-	translateCmd = "translate"
-	finishedCmd  = "finished"
-	errorCmd     = "error"
-)
+func NewLangChainLLM(cfg *Config) (LLModel, error) {
+	openaiLlm, err := openai.New(
+		openai.WithBaseURL(cfg.Base),
+		openai.WithModel(cfg.Model),
+		openai.WithToken(cfg.Key),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create OpenAI LLM: %w", err)
+	}
+	return &LangChainModel{
+		llm: openaiLlm,
+	}, nil
+}
 
-func llmGenerateContent(ctx context.Context, llm llms.Model, system string, text string, ch chan<- *translateMessage) error {
+func (m *LangChainModel) GenerateContent(ctx context.Context, system string, text string, ch chan<- *translateMessage) error {
 	var err error
 
-	_, err = llm.GenerateContent(
+	_, err = m.llm.GenerateContent(
 		ctx,
 		[]llms.MessageContent{
 			llms.TextParts(llms.ChatMessageTypeSystem, system),

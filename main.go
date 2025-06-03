@@ -5,20 +5,9 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/tmc/langchaingo/llms"
-	"github.com/tmc/langchaingo/llms/openai"
-
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
-
-func NewLLM(cfg *Config) (llms.Model, error) {
-	return openai.New(
-		openai.WithBaseURL(cfg.Base),
-		openai.WithModel(cfg.Model),
-		openai.WithToken(cfg.Key),
-	)
-}
 
 func main() {
 	// rsrc embedded the logo icon to resource id 2.
@@ -34,7 +23,8 @@ func main() {
 		return
 	}
 
-	llm, err := NewLLM(cfg)
+	// llm := NewOpenAiLLM(cfg.Base, cfg.Model, cfg.Key)
+	llm, err := NewLangChainLLM(cfg)
 	if err != nil {
 		walk.MsgBox(nil, "Error", "Failed to create LLM: "+err.Error(), walk.MsgBoxIconError)
 		return
@@ -97,7 +87,7 @@ func NewTranslator(cfg *Config) *Translator {
 	}
 }
 
-func (t *Translator) Translate(llm llms.Model, systemPrompt string, text string) {
+func (t *Translator) Translate(llm LLModel, systemPrompt string, text string) {
 	if t.inWorking.Load() {
 		t.Stop()
 		return
@@ -115,7 +105,7 @@ func (t *Translator) Translate(llm llms.Model, systemPrompt string, text string)
 	}
 	defer close(t.process.ch)
 	go func() {
-		var e = llmGenerateContent(ctx, llm, systemPrompt, text, t.process.ch)
+		var e = llm.GenerateContent(ctx, systemPrompt, text, t.process.ch)
 		if e != nil {
 			walk.MsgBox(t.wnd, "Error", "Failed to generate content: "+e.Error(), walk.MsgBoxIconError)
 		}

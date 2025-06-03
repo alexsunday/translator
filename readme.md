@@ -31,3 +31,5 @@ SYSTEM """你是一个专业的翻译员, 精通中文与英文的翻译工作, 
 - loading status
 - migrate to openai sdk, langchaingo is too big.
 - multi conf profile
+- custom title
+- shortcut and global shortcut.
