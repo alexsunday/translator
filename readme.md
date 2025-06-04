@@ -30,8 +30,9 @@ SYSTEM """你是一个专业的翻译员, 精通中文与英文的翻译工作, 
 - ~~copy to clipboard~~
 - loading status
 - ~~migrate to openai sdk, langchaingo is too big.~~
-- multi conf profile
-- custom title
-- shortcut and global shortcut.
+- ~~multi conf profile~~
+- ~~custom title~~
+- ~~shortcut~~
 - ~~system tray icon~~
 - ~~always on the top~~
+- screenshot and ocr

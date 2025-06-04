@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 const (
@@ -20,6 +21,8 @@ type Config struct {
 	Model  string
 	Base   string
 	System string
+
+	Dict map[string]string // 用于存储其他配置项
 }
 
 func (c *Config) String() string {
@@ -60,6 +63,9 @@ func fromModalFile(m *Modelfile) (*Config, error) {
 				return nil, fmt.Errorf("multiple system specified")
 			}
 			dict["system"] = item.Args
+		} else {
+			fmt.Printf("name: %s, args: %s\n", item.Name, item.Args)
+			dict[strings.ToLower(item.Name)] = item.Args
 		}
 	}
 
@@ -94,11 +100,12 @@ func fromModalFile(m *Modelfile) (*Config, error) {
 		Model:  model,
 		Base:   base,
 		System: system,
+		Dict:   dict,
 	}, nil
 }
 
-func loadConfig() (*Config, error) {
-	reader, err := os.Open("conf")
+func loadConfig(confPath string) (*Config, error) {
+	reader, err := os.Open(confPath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open config file: %w", err)
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -56,6 +57,7 @@ func (t *Translator) CopyToClipboard() {
 }
 
 func (t *Translator) Translate(llm LLModel, systemPrompt string, text string) {
+	text = strings.TrimSpace(text)
 	if t.inWorking.Load() {
 		t.Stop()
 		return

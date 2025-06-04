@@ -19,10 +19,16 @@ func setSysTray(app *Translator) {
 		systray.SetTooltip("Translator")
 
 		mTop := systray.AddMenuItemCheckbox("总在最上层", "", topMost)
+		mShow := systray.AddMenuItem("显示窗口", "")
 		mQuit := systray.AddMenuItem("退出", "")
 
 		for {
 			select {
+			case <-mShow.ClickedCh:
+				if app.wnd != nil {
+					app.wnd.Show()
+					win.SetWindowPos(app.wnd.Handle(), win.HWND_TOP, 0, 0, 0, 0, win.SWP_NOMOVE|win.SWP_NOSIZE)
+				}
 			case <-mTop.ClickedCh:
 				if app.wnd == nil {
 					return
