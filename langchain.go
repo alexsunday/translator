@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/tmc/langchaingo/llms"
@@ -50,6 +51,10 @@ func (m *LangChainModel) GenerateContent(ctx context.Context, system string, tex
 	)
 
 	if err != nil {
+		fmt.Printf("error: %s\n", err.Error())
+		if errors.Is(err, context.Canceled) {
+			return nil
+		}
 		ch <- &translateMessage{
 			text: err.Error(),
 			cmd:  errorCmd,
