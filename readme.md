@@ -27,9 +27,11 @@ SYSTEM """你是一个专业的翻译员, 精通中文与英文的翻译工作, 
 所以本质上，这就是个简单的一次性生成工具，完全可以利用 LLM 的能力，移做他用
 
 # TODO:
-- copy to clipboard
+- ~~copy to clipboard~~
 - loading status
-- migrate to openai sdk, langchaingo is too big.
+- ~~migrate to openai sdk, langchaingo is too big.~~
 - multi conf profile
 - custom title
 - shortcut and global shortcut.
+- ~~system tray icon~~
+- ~~always on the top~~
