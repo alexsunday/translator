@@ -2,19 +2,41 @@ package main
 
 import (
 	"flag"
+	"strings"
 
 	"github.com/lxn/walk"
 	. "github.com/lxn/walk/declarative"
 )
 
 var (
-	confName = flag.String("c", "conf", "Path to the configuration file")
+	confName      = flag.String("c", "", "Path to the configuration file")
+	builtinConfig = ``
 )
 
-func main() {
+/*
+考虑将 api key 配置内置的方案
+1. 先看看命令行CLI是否指定了配置文件 ，若指定了，则使用命令行的；
+2. 看看是否有内置的 若有则使用内置
+3. 都没有，则查找 conf 文件
+*/
+
+func indexConfig() (*Config, error) {
 	flag.Parse()
 
-	cfg, err := loadConfig(*confName)
+	if *confName != "" {
+		return loadConfig(*confName)
+	}
+
+	content := strings.TrimSpace(builtinConfig)
+	if content != "" {
+		return loadConfigViaFileContent(content)
+	}
+
+	return loadConfig("conf")
+}
+
+func main() {
+	cfg, err := indexConfig()
 	if err != nil {
 		walk.MsgBox(nil, "Error", "Failed to load configuration: "+err.Error(), walk.MsgBoxIconError)
 		return

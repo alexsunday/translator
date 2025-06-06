@@ -48,3 +48,4 @@ PARAMETER TITLE 翻译官
 - ~~system tray icon~~
 - ~~always on the top~~
 - screenshot and ocr
+- add some shortcut like clear, save, copy ... 

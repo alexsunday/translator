@@ -3,4 +3,4 @@ conf
 *.syso
 *.dll
 translator
-conf.joke
+conf.*

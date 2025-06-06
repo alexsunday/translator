@@ -122,3 +122,17 @@ func loadConfig(confPath string) (*Config, error) {
 
 	return config, nil
 }
+
+func loadConfigViaFileContent(content string) (*Config, error) {
+	modelFile, err := ParseFile(strings.NewReader(content))
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse config file: %w", err)
+	}
+
+	config, err := fromModalFile(modelFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to convert modelfile to config: %w", err)
+	}
+
+	return config, nil
+}
